@@ -1,0 +1,42 @@
+{
+  "sdf@##9sldfw1": {
+    "status": true,
+    "data": {
+      "id": 30,
+      "username": "17717419155",
+      "mobile": "17717419155",
+      "invitation_code": 30,
+      "avatar": "/http://image.tianjimedia.com/uploadImages/2017/039/09/651QW62IKH79.jpg",
+      "profile": {
+        "user_id": 30,
+        "province": "河南",
+        "city": "开封",
+        "area": "开封县",
+        "avatar_path": "http://image.tianjimedia.com/uploadImages/2017/039/09/651QW62IKH79.jpg",
+        "avatar_base_url": null,
+        "locale": "zh-CN",
+        "gender": null
+      }
+    }
+  },
+  "sdf@##9sldfw2": {
+    "status": true,
+    "data": {
+      "id": 30,
+      "username": "17717419155",
+      "mobile": "17717419155",
+      "invitation_code": 30,
+      "avatar": "/http://image.tianjimedia.com/uploadImages/2017/039/09/651QW62IKH79.jpg",
+      "profile": {
+        "user_id": 30,
+        "province": "河南",
+        "city": "开封",
+        "area": "开封县",
+        "avatar_path": "http://image.tianjimedia.com/uploadImages/2017/039/09/651QW62IKH79.jpg",
+        "avatar_base_url": null,
+        "locale": "zh-CN",
+        "gender": null
+      }
+    }
+  }
+}

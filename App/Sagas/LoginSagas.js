@@ -5,19 +5,26 @@ import AccountActions from '../Redux/AccountRedux'
 export const selectAuthToken = (state) => state.login.authToken
 
 // attempts to login
-export function * login (api, { username, password }) {
-  const authObj = 'username=' + username + '&password=' + password + '&grant_type=password'
+export function * login (api, {username, password}) {
+  // const authObj = 'username=' + username + '&password=' + password + '&grant_type=password'
+  const authObj = {username, password}
 
   const response = yield call(api.login, authObj)
 
   // success?
-  if (response.ok) {
-    yield call(api.setAuthToken, response.data.access_token)
-    yield put(LoginActions.loginSuccess(response.data))
-    yield put(AccountActions.accountRequest())
-    yield put({ type: 'RELOGIN_OK' })
-  } else {
-    yield put(LoginActions.loginFailure('WRONG'))
+  if (response.ok) { // 网络请求成功
+    const data = response.data
+    if (data.status) { // 用户登录验证成功
+      yield call(api.setAuthToken, data.data.access_token)
+      yield put(LoginActions.loginSuccess(data.data.access_token))
+      yield put(AccountActions.accountRequest(data.data.access_token))
+      yield put({type: 'RELOGIN_OK'})
+    } else {
+      yield put(LoginActions.loginFailure(data.data.msg))
+    }
+  } else { // 网络请求失败
+    // yield put(LoginActions.loginFailure('NET_WRONG'))
+    yield put(LoginActions.loginFailure(response))
   }
 }
 
@@ -28,7 +35,7 @@ export function * logout (api) {
   yield call(api.removeAuthToken)
   yield put(AccountActions.logout())
   yield put(LoginActions.logoutSuccess())
-  yield put({ type: 'RELOGIN_ABORT' })
+  yield put({type: 'RELOGIN_ABORT'})
 }
 
 export function * loginRefresh (api) {

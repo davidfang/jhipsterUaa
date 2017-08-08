@@ -45,13 +45,29 @@ const create = (baseURL = AppConfig.apiUrl) => {
   //
   const setAuthToken = (userAuth) => api.setHeader('Authorization', 'Bearer ' + userAuth)
   const removeAuthToken = () => api.setHeader('Authorization', '')
-  const login = (userAuth) => api.post(AppConfig.uaaBaseUrl + 'oauth/token', userAuth, {headers: {'Authorization': 'Basic ' + new Buffer(AppConfig.oauthClientId + ':' + AppConfig.oauthClientSecret).toString('base64'), 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json, text/plain, */*'}})
+  const login = (userAuth) => api.post(AppConfig.uaaBaseUrl + 'oauth/token', userAuth, {
+    headers: {
+      'Authorization': 'Basic ' + new Buffer(AppConfig.oauthClientId + ':' + AppConfig.oauthClientSecret).toString('base64'),
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json, text/plain, */*'
+    }
+  })
   const register = (user) => api.post(AppConfig.uaaBaseUrl + 'api/register', user)
-  const forgotPassword = (data) => api.post(AppConfig.uaaBaseUrl + 'api/account/reset_password/init', data, {headers: {'Content-Type': 'text/plain', 'Accept': 'application/json, text/plain, */*'}})
+  const forgotPassword = (data) => api.post(AppConfig.uaaBaseUrl + 'api/account/reset_password/init', data, {
+    headers: {
+      'Content-Type': 'text/plain',
+      'Accept': 'application/json, text/plain, */*'
+    }
+  })
 
-  const getAccount = () => api.get(AppConfig.uaaBaseUrl + 'api/account')
+  const getAccount = (access_token) => api.get(AppConfig.uaaBaseUrl + 'api/account', {access_token})
   const updateAccount = (account) => api.post(AppConfig.uaaBaseUrl + 'api/account', account)
-  const changePassword = (newPassword) => api.post(AppConfig.uaaBaseUrl + 'api/account/change_password', newPassword, {headers: {'Content-Type': 'text/plain', 'Accept': 'application/json, text/plain, */*'}})
+  const changePassword = (newPassword) => api.post(AppConfig.uaaBaseUrl + 'api/account/change_password', newPassword, {
+    headers: {
+      'Content-Type': 'text/plain',
+      'Accept': 'application/json, text/plain, */*'
+    }
+  })
   // ignite-jhipster-api-method-needle
 
   // ------

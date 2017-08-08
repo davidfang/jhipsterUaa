@@ -2,6 +2,7 @@ import { takeLatest } from 'redux-saga/effects'
 import API from '../Services/Api'
 import JHIPSTER_API from '../Services/JhipsterApi'
 import FixtureAPI from '../Services/FixtureApi'
+import JHIPSTER_TEST_API from '../Services/JhipsterTestApi'
 import DebugConfig from '../Config/DebugConfig'
 
 /* ------------- Types ------------- */
@@ -32,7 +33,7 @@ import { getAccount, updateAccount } from './AccountSagas'
 // to the sagas which need it.
 const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
 // todo set up fixtures for the JHipster API
-const jhipsterApi = JHIPSTER_API.create()
+const jhipsterApi = DebugConfig.useFixtures ? JHIPSTER_API.create() : JHIPSTER_TEST_API
 
 /* ------------- Connect Types To Sagas ------------- */
 
