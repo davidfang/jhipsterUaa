@@ -3,7 +3,7 @@
 export default {
   // font scaling override - RN default is on
   allowTextFontScaling: true,
-  apiUrl: 'http://localhost:8080/',
+  apiUrl: 'http://membertest.mirenbank.com/',
   oauthClientId: 'web_app',
   oauthClientSecret: '',
   uaaBaseUrl: 'uaa/'

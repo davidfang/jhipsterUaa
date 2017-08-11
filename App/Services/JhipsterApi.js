@@ -68,6 +68,10 @@ const create = (baseURL = AppConfig.apiUrl) => {
       'Accept': 'application/json, text/plain, */*'
     }
   })
+
+  const getCaptcha = () => api.get('site/captcha', {refresh: 'refresh'}) // 获取图片验证码
+  const checkCaptcha = (code) => api.get('site/check-captcha', { code }) // 校验图片验证码
+  const getCode = (mobile,captcha) => api.get('sms-api/get-code',{mobile, id: 1, captcha}) // 获取手机验证码
   // ignite-jhipster-api-method-needle
 
   // ------
@@ -92,7 +96,11 @@ const create = (baseURL = AppConfig.apiUrl) => {
     forgotPassword,
     getAccount,
     updateAccount,
-    changePassword
+    changePassword,
+
+    getCaptcha,
+    checkCaptcha,
+    getCode
   }
 }
 

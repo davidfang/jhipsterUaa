@@ -20,7 +20,7 @@ import { AccountTypes } from '../Redux/AccountRedux'
 
 import { startup } from './StartupSagas'
 import { login, logout, loginLoad, loginRefresh } from './LoginSagas'
-import { register } from './RegisterSagas'
+import { register, getCaptcha, checkCaptcha } from './RegisterSagas'
 import { forgotPassword, changePassword } from './PasswordSagas'
 import { getUserAvatar } from './GithubSagas'
 import { openScreen } from './OpenScreenSagas'
@@ -33,7 +33,8 @@ import { getAccount, updateAccount } from './AccountSagas'
 // to the sagas which need it.
 const api = DebugConfig.useFixtures ? FixtureAPI : API.create()
 // todo set up fixtures for the JHipster API
-const jhipsterApi = DebugConfig.useFixtures ? JHIPSTER_API.create() : JHIPSTER_TEST_API
+// const jhipsterApi = DebugConfig.useFixtures ? JHIPSTER_API.create() : JHIPSTER_TEST_API
+const jhipsterApi = JHIPSTER_API.create()
 
 /* ------------- Connect Types To Sagas ------------- */
 
@@ -49,6 +50,8 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_REQUEST, login, jhipsterApi),
     takeLatest(LoginTypes.LOGOUT_REQUEST, logout, jhipsterApi),
     takeLatest(RegisterTypes.REGISTER_REQUEST, register, jhipsterApi),
+    takeLatest(RegisterTypes.CAPTCHA_REQUEST, getCaptcha, jhipsterApi),
+    takeLatest(RegisterTypes.CAPTCHA_CHECK, checkCaptcha, jhipsterApi),
     takeLatest(PasswordTypes.FORGOT_PASSWORD_REQUEST, forgotPassword, jhipsterApi),
     takeLatest(PasswordTypes.CHANGE_PASSWORD_REQUEST, changePassword, jhipsterApi),
 

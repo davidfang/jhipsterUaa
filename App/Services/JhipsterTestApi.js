@@ -58,9 +58,26 @@ export default {
     }
   },
   register: (user) => {
-    return {
-      ok: true,
-      data: require('../Fixtures/root.json')
+    const {username, password} = user
+    const userInfo = require('../Fixtures/user.json')
+    if (username !== userInfo.username && password.length > 5 && password.length < 12) {
+      return {
+        ok: true,
+        data: {
+          status: true,
+          data: {
+            access_token: 'sdf@##9sldfw2'
+          }
+        }
+      }
+    } else {
+      return {
+        ok: true,
+        data: {
+          status: false,
+          msg: '注册失败'
+        }
+      }
     }
   },
   forgotPassword: (data) => {
@@ -71,7 +88,7 @@ export default {
   },
   getAccount: (access_token) => {
     const accounts = require('../Fixtures/account.json')
-    if (access_token == 'sdf@##9sldfw1') {
+    if (accounts[access_token] !== null) {
       return {
         ok: true,
         data: accounts[access_token]
