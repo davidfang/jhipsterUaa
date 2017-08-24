@@ -33,7 +33,7 @@ class RegisterScreen extends React.Component {
       checkCode,
       captchaUrl: captchaUrl,
       accountValue: {
-        username: null,
+        mobile: null,
         password: null,
         confirmPassword: null,
         captcha: null,
@@ -46,6 +46,7 @@ class RegisterScreen extends React.Component {
     this.accountChange = this.accountChange.bind(this)
     this.handleRefreshCaptcha = this.handleRefreshCaptcha.bind(this)
     this.handleCheckCaptcha = this.handleCheckCaptcha.bind(this)
+    this.handleCheckCode = this.handleCheckCode.bind(this)
     this.captchaImage = this.captchaImage.bind(this)
     this.coutDown = this.coutDown.bind(this)
     this.countDownPress = this.countDownPress.bind(this)
@@ -62,7 +63,7 @@ class RegisterScreen extends React.Component {
     this.props.getCaptcha()
   }
   /**
-   * 校验验证码
+   * 校验图形验证码
    */
   handleCheckCaptcha = () => {
     let {accountValue: {captcha}} = this.state
@@ -81,6 +82,27 @@ class RegisterScreen extends React.Component {
     } else {
       return false
     }
+  }
+  /**
+   * 校验手机验证码
+   */
+  handleCheckCode = () => {
+    let {accountValue: {code}} = this.state
+    const {codeHash1, codeHash2} = this.props
+    if (code == '' || code == null) {
+      return false
+    }
+    code = code.toLowerCase()
+    let a = 0
+    for (let i = 0; i < code.length; i++) {
+      a += code.charAt(i).charCodeAt()
+    }
+    console.log(a)
+    if (a == codeHash1 || a == codeHash2) {
+      return true
+    } else {
+      return false
+    }
 
   }
 
@@ -92,10 +114,19 @@ class RegisterScreen extends React.Component {
     const value = this.refs.form.getValue()
     if (value) { // if validation fails, value will be null
       if (value.password !== value.confirmPassword) {
-        Alert.alert('Error', 'Passwords do not match', [{text: 'OK'}])
+        Alert.alert('Error', '输入的密码不一致', [{text: 'OK'}])
         return
       }
-      this.props.register(value)
+      if (this.handleCheckCaptcha() == false) {
+        Alert.alert('Error', '请输入正确图形验证码', [{text: 'OK'}])
+        return
+      }
+      if (this.handleCheckCode() == false) {
+        Alert.alert('Error', '请输入正确手机验证码', [{text: 'OK'}])
+        return
+      }
+
+      this.props.register({...value,username: value.mobile, type: 'miliao'})
     }
   }
 
@@ -157,7 +188,14 @@ class RegisterScreen extends React.Component {
    * 倒计时按钮 按下 触发动作
    */
   countDownPress () {
+    let {accountValue: {mobile, captcha}} = this.state
+    if (mobile.length < 11) {
+      Alert.alert('Error', '手机格式不对', [{text: 'OK'}])
+      return false
+    }
+
     if (this.handleCheckCaptcha()) {
+      this.props.getCode(mobile, captcha)
       this.countDownButton.startCountDown()
       Alert.alert('发送成功', '手机验证码3分钟内会发放', [{text: 'OK'}])
     } else {
@@ -243,14 +281,16 @@ class RegisterScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const {register: {captchaUrl, checkCode, hash1, hash2}} = state
+  const {register: {captchaUrl, checkCode, hash1, hash2, codeHash1, codeHash2}} = state
   return {
     fetching: state.register.fetching,
     error: state.register.error,
     captchaUrl,
     checkCode,
     hash1,
-    hash2
+    hash2,
+    codeHash1,
+    codeHash2
   }
 }
 
@@ -258,6 +298,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     register: (account) => dispatch(RegisterActions.registerRequest(account)),
     getCaptcha: () => dispatch(RegisterActions.captchaRequest()),
+    getCode: (mobile, captcha) => dispatch(RegisterActions.codeRequest(mobile, captcha)),
     checkCaptcha: (code) => dispatch(RegisterActions.captchaCheck(code))
   }
 }

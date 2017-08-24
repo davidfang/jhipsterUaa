@@ -5,9 +5,9 @@ import AccountActions from '../Redux/AccountRedux'
 export const selectAuthToken = (state) => state.login.authToken
 
 // attempts to login
-export function * login (api, {username, password}) {
+export function * login (api, {identity, password}) {
   // const authObj = 'username=' + username + '&password=' + password + '&grant_type=password'
-  const authObj = {username, password}
+  const authObj = {identity, password, type:"miliao"}
 
   const response = yield call(api.login, authObj)
 
@@ -20,10 +20,10 @@ export function * login (api, {username, password}) {
       yield put(AccountActions.accountRequest(data.data.access_token))
       yield put({type: 'RELOGIN_OK'})
     } else {
-      yield put(LoginActions.loginFailure(data.data.msg))
+      yield put(LoginActions.loginFailure(data))
     }
   } else { // 网络请求失败
-    // yield put(LoginActions.loginFailure('NET_WRONG'))
+    yield put(LoginActions.loginFailure('NET_WRONG'))
     yield put(LoginActions.loginFailure(response))
   }
 }
@@ -60,7 +60,7 @@ export function * loginLoad (api) {
   const authToken = yield select(selectAuthToken)
   // only set the token if we have it
   if (authToken !== null) {
-    yield call(api.setAuthToken, authToken.access_token)
+    yield call(api.setAuthToken, authToken)
   }
   yield put(LoginActions.loginLoadSuccess())
 }

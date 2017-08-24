@@ -114,6 +114,20 @@ export default {
       ok: true,
       data: require('../Fixtures/root.json')
     }
+  },
+  getCode: (mobile, captcha) => {
+    return {
+      ok: true,
+      data: {
+        status: true,
+        data: {
+          code: "2834",
+          hash1: 209,
+          hash2: 209,
+          msg: "短信发送成功"
+        }
+      }
+    }
   }
 
 }

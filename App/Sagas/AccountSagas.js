@@ -16,6 +16,7 @@ export function * getAccount (api, action) {
       yield put(AccountActions.accountSuccess(data.data))
     } else {
       console.tron.log('Account - FAIL')
+      yield put(AccountActions.accountFailure(response))
       yield put(AccountActions.accountFailure('WRONG' + data.message))
       yield put(LoginActions.logoutRequest())
     }

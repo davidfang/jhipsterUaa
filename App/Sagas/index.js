@@ -20,7 +20,7 @@ import { AccountTypes } from '../Redux/AccountRedux'
 
 import { startup } from './StartupSagas'
 import { login, logout, loginLoad, loginRefresh } from './LoginSagas'
-import { register, getCaptcha, checkCaptcha } from './RegisterSagas'
+import { register, getCaptcha, getCode, checkCaptcha } from './RegisterSagas'
 import { forgotPassword, changePassword } from './PasswordSagas'
 import { getUserAvatar } from './GithubSagas'
 import { openScreen } from './OpenScreenSagas'
@@ -51,6 +51,7 @@ export default function * root () {
     takeLatest(LoginTypes.LOGOUT_REQUEST, logout, jhipsterApi),
     takeLatest(RegisterTypes.REGISTER_REQUEST, register, jhipsterApi),
     takeLatest(RegisterTypes.CAPTCHA_REQUEST, getCaptcha, jhipsterApi),
+    takeLatest(RegisterTypes.CODE_REQUEST, getCode, jhipsterApi),
     takeLatest(RegisterTypes.CAPTCHA_CHECK, checkCaptcha, jhipsterApi),
     takeLatest(PasswordTypes.FORGOT_PASSWORD_REQUEST, forgotPassword, jhipsterApi),
     takeLatest(PasswordTypes.CHANGE_PASSWORD_REQUEST, changePassword, jhipsterApi),
@@ -60,6 +61,6 @@ export default function * root () {
     // ignite-jhipster-saga-redux-connect-needle
 
     // some sagas receive extra parameters in addition to an action
-    takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, api)
+    takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, jhipsterApi)
   ]
 }

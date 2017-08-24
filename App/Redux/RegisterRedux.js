@@ -10,6 +10,9 @@ const { Types, Creators } = createActions({
   captchaRequest: ['time'],
   captchaSuccess: ['hash1', 'hash2', 'captchaUrl'],
   captchaFailure: ['error'],
+  codeRequest: ['mobile', 'captcha'],
+  codeSuccess: ['hash1', 'hash2', 'code'],
+  codeFailure: ['error'],
   captchaCheck: ['code'],
   captchaCheckSuccess: ['status', 'msg'],
   captchaCheckFailure: ['error']
@@ -24,10 +27,14 @@ export const INITIAL_STATE = Immutable({
   error: null,
   fetching: false,
   checkCode: false,
-  captchaUrl:null,
+  checkCaptcha: false,
+  captchaUrl: null,
   hash1: null,
   hash2: null,
-  checkCode: null,
+  captcha: null,
+  codeHash1: null,
+  codeHash2: null,
+  code: null
 })
 
 /* ------------- Reducers ------------- */
@@ -57,9 +64,17 @@ export const captchaCheckSuccess = (state, action) => {
   return state.merge({fetching: false, checkCode: status, error: msg})
 }
 
+export const codeSuccess = (state, action) => {
+  const {hash1, hash2, code} = action
+  return state.merge({fetching: false, error: null, codeHash1: hash1, codeHash2: hash2, codeTmp: code})
+}
+
+
 // Something went wrong somewhere.
 export const captchaFailure = (state, { error }) =>
   state.merge({fetching: false, error: error, hash1: null, hash2: null, url: null})
+export const codeFailure = (state, { error }) =>
+  state.merge({fetching: false, error: error, hash1: null, hash2: null, codeTmp: null})
 export const captchaCheckFailure = (state, { error }) =>
   state.merge({fetching: false, error: error, hash1: null, hash2: null, url: null})
 
@@ -72,6 +87,9 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.CAPTCHA_REQUEST]: request,
   [Types.CAPTCHA_SUCCESS]: captchaSuccess,
   [Types.CAPTCHA_FAILURE]: captchaFailure,
+  [Types.CODE_REQUEST]: request,
+  [Types.CODE_SUCCESS]: codeSuccess,
+  [Types.CODE_FAILURE]: codeFailure,
   [Types.CAPTCHA_CHECK]: request,
   [Types.CAPTCHA_CHECK_SUCCESS]: captchaCheckSuccess,
   [Types.CAPTCHA_CHECK_FAILURE]: captchaCheckFailure

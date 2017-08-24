@@ -45,14 +45,20 @@ const create = (baseURL = AppConfig.apiUrl) => {
   //
   const setAuthToken = (userAuth) => api.setHeader('Authorization', 'Bearer ' + userAuth)
   const removeAuthToken = () => api.setHeader('Authorization', '')
-  const login = (userAuth) => api.post(AppConfig.uaaBaseUrl + 'oauth/token', userAuth, {
+  /*const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth, {
     headers: {
       'Authorization': 'Basic ' + new Buffer(AppConfig.oauthClientId + ':' + AppConfig.oauthClientSecret).toString('base64'),
       'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json, text/plain, *!/!*'
+    }
+  })*/
+  const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth, {
+    headers: {
+      'Content-Type': 'application/json',
       'Accept': 'application/json, text/plain, */*'
     }
   })
-  const register = (user) => api.post(AppConfig.uaaBaseUrl + 'api/register', user)
+  const register = (user) => api.post('api/v1/sign-in/signup', user)
   const forgotPassword = (data) => api.post(AppConfig.uaaBaseUrl + 'api/account/reset_password/init', data, {
     headers: {
       'Content-Type': 'text/plain',
@@ -60,7 +66,7 @@ const create = (baseURL = AppConfig.apiUrl) => {
     }
   })
 
-  const getAccount = (access_token) => api.get(AppConfig.uaaBaseUrl + 'api/account', {access_token})
+  const getAccount = (access_token) => api.get('api/v1/profile/index', {'access-token':access_token})
   const updateAccount = (account) => api.post(AppConfig.uaaBaseUrl + 'api/account', account)
   const changePassword = (newPassword) => api.post(AppConfig.uaaBaseUrl + 'api/account/change_password', newPassword, {
     headers: {
@@ -71,7 +77,7 @@ const create = (baseURL = AppConfig.apiUrl) => {
 
   const getCaptcha = () => api.get('site/captcha', {refresh: 'refresh'}) // 获取图片验证码
   const checkCaptcha = (code) => api.get('site/check-captcha', { code }) // 校验图片验证码
-  const getCode = (mobile,captcha) => api.get('sms-api/get-code',{mobile, id: 1, captcha}) // 获取手机验证码
+  const getCode = (mobile, captcha) => api.get('sms-api/get-code', {mobile, id: 1, captcha}) // 获取手机验证码
   // ignite-jhipster-api-method-needle
 
   // ------
