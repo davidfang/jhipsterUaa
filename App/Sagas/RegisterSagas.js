@@ -6,23 +6,25 @@ import AccountActions from '../Redux/AccountRedux'
 // attempts to register
 export function * register (api, {user}) {
   const response = yield call(api.register, user)
+
   // success?
   if (response.ok) {
-    console.tron.log('Register - OK')
+    // console.tron.log('Register - OK')
     const {status, data} = response.data
     if (status) {
       yield put(RegisterActions.registerSuccess())
-      yield call(api.setAuthToken, data.data.access_token)
-      yield put(LoginActions.loginSuccess(data.data.access_token))
-      yield put(AccountActions.accountRequest(data.data.access_token))
+      yield call(api.setAuthToken, data.access_token)
+      yield put(LoginActions.loginSuccess(data.access_token))
+      yield put(AccountActions.accountRequest(data.access_token))
+
       yield put({type: 'RELOGIN_OK'})
     } else {
       yield put(RegisterActions.registerFailure('Register - FAIL'))
-      // yield put(RegisterActions.registerFailure(response.data))
+      yield put(RegisterActions.registerFailure(response.data))
     }
 
   } else {
-    console.tron.log('Register - FAIL')
+    // console.tron.log('Register - FAIL')
     yield put(RegisterActions.registerFailure('Register - NET -FAIL'))
     yield put(RegisterActions.registerFailure(response.data))
   }

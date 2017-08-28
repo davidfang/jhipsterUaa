@@ -34,7 +34,7 @@ export const updateRequest = (state) => state.merge({updating: true})
 // we've successfully logged in
 export const success = (state, data) => {
   const {account} = data
-  return state.merge({fetching: false, error: null, account: data})
+  return state.merge({fetching: false, error: null, account})
 }
 // we've successfully updated the account
 export const updateSuccess = (state, data) => {

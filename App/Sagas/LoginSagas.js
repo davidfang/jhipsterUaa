@@ -7,7 +7,7 @@ export const selectAuthToken = (state) => state.login.authToken
 // attempts to login
 export function * login (api, {identity, password}) {
   // const authObj = 'username=' + username + '&password=' + password + '&grant_type=password'
-  const authObj = {identity, password, type:"miliao"}
+  const authObj = {identity, password, type: 'miliao'}
 
   const response = yield call(api.login, authObj)
 
@@ -60,7 +60,24 @@ export function * loginLoad (api) {
   const authToken = yield select(selectAuthToken)
   // only set the token if we have it
   if (authToken !== null) {
-    yield call(api.setAuthToken, authToken)
+
+    const response = yield call(api.getAccount, authToken)
+
+    if (response.ok) {
+      const data = response.data
+      if (data.status) { // 用户登录验证成功
+        yield call(api.setAuthToken, authToken)
+        yield put(LoginActions.loginLoadSuccess())
+      } else {
+        yield put(LoginActions.loginFailure('LOGIN-WRONG'))
+        yield put(LoginActions.loginFailure(data.msg))
+
+        yield logout(api)
+      }
+    } else {
+      yield put(LoginActions.loginFailure('NET-WRONG'))
+
+      yield logout(api)
+    }
   }
-  yield put(LoginActions.loginLoadSuccess())
 }

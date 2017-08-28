@@ -131,6 +131,9 @@ class RegisterScreen extends React.Component {
   }
 
   componentWillReceiveProps (newProps, oldProps) {
+    if(newProps.authToken != null){
+      NavigationActions.pop()
+    }
     // Did the register attempt complete?
     if (!newProps.fetching) {
       if (newProps.error) {
@@ -197,7 +200,7 @@ class RegisterScreen extends React.Component {
     if (this.handleCheckCaptcha()) {
       this.props.getCode(mobile, captcha)
       this.countDownButton.startCountDown()
-      Alert.alert('发送成功', '手机验证码3分钟内会发放', [{text: 'OK'}])
+      // Alert.alert('发送成功', '手机验证码3分钟内会发放', [{text: 'OK'}])
     } else {
       Alert.alert('Error', '请核对图形验证码', [{text: 'OK'}])
     }
@@ -281,7 +284,7 @@ class RegisterScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const {register: {captchaUrl, checkCode, hash1, hash2, codeHash1, codeHash2}} = state
+  const {register: {captchaUrl, checkCode, hash1, hash2, codeHash1, codeHash2},login:{authToken }} = state
   return {
     fetching: state.register.fetching,
     error: state.register.error,
@@ -290,7 +293,8 @@ const mapStateToProps = (state) => {
     hash1,
     hash2,
     codeHash1,
-    codeHash2
+    codeHash2,
+    authToken
   }
 }
 
