@@ -37,8 +37,7 @@ class RegisterScreen extends React.Component {
         password: null,
         confirmPassword: null,
         captcha: null,
-        code: null,
-        langKey: 'en'
+        code: null
       },
       success: false
     }
@@ -214,8 +213,7 @@ class RegisterScreen extends React.Component {
         password: t.String,
         confirmPassword: t.String,
         captcha: t.String,
-        code: t.String,
-        langKey: t.String
+        code: t.String
       }),
       accountValue: this.state.accountValue,
       options: {
@@ -256,9 +254,6 @@ class RegisterScreen extends React.Component {
               captcha: this.coutDown
             }
             // factory: CountDown
-          },
-          langKey: {
-            hidden: true
           }
         }
       }

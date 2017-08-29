@@ -14,21 +14,27 @@ class ChangePasswordScreen extends React.Component {
     super(props)
     this.state = {
       formModel: t.struct({
+        mobile: t.String,
         password: t.String,
         confirmPassword: t.String
       }),
-      formValue: { password: null, confirmPassword: null },
+      formValue: { password: null, confirmPassword: null, mobile: props.mobile },
       formOptions: {
         fields: {
           password: {
+            label: '密码',
             secureTextEntry: true,
             returnKeyType: 'next',
             onSubmitEditing: () => this.refs.form.getComponent('confirmPassword').refs.input.focus()
           },
           confirmPassword: {
+            label: '确认密码',
             secureTextEntry: true,
             returnKeyType: 'done',
             onSubmitEditing: () => this.submitForm()
+          },
+          mobile: {
+            hidden: true
           }
         }
       },
@@ -97,7 +103,8 @@ class ChangePasswordScreen extends React.Component {
 const mapStateToProps = (state) => {
   return {
     fetching: state.password.fetching,
-    error: state.password.error
+    error: state.password.error,
+    mobile: state.account.account.mobile
   }
 }
 
