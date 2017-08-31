@@ -21,12 +21,12 @@ import { CaptchaCodeTypes } from '../Redux/CaptchaCodeRedux'
 
 import { startup } from './StartupSagas'
 import { login, logout, loginLoad, loginRefresh } from './LoginSagas'
-import { register, getCaptcha, getCode, checkCaptcha } from './RegisterSagas'
+import { register } from './RegisterSagas'
 import { forgotPassword, changePassword } from './PasswordSagas'
 import { getUserAvatar } from './GithubSagas'
 import { openScreen } from './OpenScreenSagas'
 import { getAccount, updateAccount } from './AccountSagas'
-import { getCaptcha as GetCaptcha, getCode as GetCode } from './CaptchaCodeSagas'
+import { getCaptcha, getCode} from './CaptchaCodeSagas'
 // ignite-jhipster-saga-method-import-needle
 
 /* ------------- API ------------- */
@@ -52,14 +52,11 @@ export default function * root () {
     takeLatest(LoginTypes.LOGIN_REQUEST, login, jhipsterApi),
     takeLatest(LoginTypes.LOGOUT_REQUEST, logout, jhipsterApi),
     takeLatest(RegisterTypes.REGISTER_REQUEST, register, jhipsterApi),
-    takeLatest(RegisterTypes.CAPTCHA_REQUEST, getCaptcha, jhipsterApi),
-    takeLatest(RegisterTypes.CODE_REQUEST, getCode, jhipsterApi),
-    takeLatest(RegisterTypes.CAPTCHA_CHECK, checkCaptcha, jhipsterApi),
     takeLatest(PasswordTypes.FORGOT_PASSWORD_REQUEST, forgotPassword, jhipsterApi),
     takeLatest(PasswordTypes.CHANGE_PASSWORD_REQUEST, changePassword, jhipsterApi),
 
-    takeLatest(CaptchaCodeTypes.CAPTCHA_REQUEST, GetCaptcha, jhipsterApi),
-    takeLatest(CaptchaCodeTypes.CODE_REQUEST, GetCode, jhipsterApi),
+    takeLatest(CaptchaCodeTypes.CAPTCHA_REQUEST, getCaptcha, jhipsterApi),
+    takeLatest(CaptchaCodeTypes.CODE_REQUEST, getCode, jhipsterApi),
 
 
     takeLatest(AccountTypes.ACCOUNT_REQUEST, getAccount, jhipsterApi),

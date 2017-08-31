@@ -11,12 +11,12 @@ import {
 import { connect } from 'react-redux'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import RegisterActions from '../Redux/RegisterRedux'
+import PasswordActions from '../Redux/PasswordRedux'
+import LoginActions from '../Redux/LoginRedux'
 import t from 'tcomb-form-native'
-import AppConfig from '../Config/AppConfig'
-
-import CountDownButton from '../Components/CountDownButton'
-
-import {  Captcha } from '../Components/CustomTcomb'
+import { Captcha as Custom } from '../Components/CustomTcomb'
+import Captcha from './Captcha'
+import Code from './Code'
 // Styles
 import styles from './Styles/RegisterScreenStyle'
 
@@ -42,45 +42,32 @@ class RegisterScreen extends React.Component {
     }
     this.submitUpdate = this.submitUpdate.bind(this)
     this.accountChange = this.accountChange.bind(this)
-    this.handleRefreshCaptcha = this.handleRefreshCaptcha.bind(this)
-    this.handleCheckCaptcha = this.handleCheckCaptcha.bind(this)
     this.handleCheckCode = this.handleCheckCode.bind(this)
     this.captchaImage = this.captchaImage.bind(this)
     this.coutDown = this.coutDown.bind(this)
-    this.countDownPress = this.countDownPress.bind(this)
-  }
-
-  componentWillMount () {
-    this.handleRefreshCaptcha()
   }
 
   /**
-   * 刷新验证码
+   * 图片验证码
+   * @returns {XML}
    */
-  handleRefreshCaptcha = () => {
-    this.props.getCaptcha()
+  captchaImage () {
+    return (
+      <Captcha />
+    )
   }
+
   /**
-   * 校验图形验证码
+   * 倒计时获取手机验证码
+   * @returns {XML}
    */
-  handleCheckCaptcha = () => {
-    let {accountValue: {captcha}} = this.state
-    const {hash1, hash2} = this.props
-    if (captcha == '' || captcha == null) {
-      return false
-    }
-    captcha = captcha.toLowerCase()
-    let a = 0
-    for (let i = 0; i < captcha.length; i++) {
-      a += captcha.charAt(i).charCodeAt()
-    }
-    console.log(a)
-    if (a == hash1 || a == hash2) {
-      return true
-    } else {
-      return false
-    }
+  coutDown () {
+    const {accountValue: {mobile, captcha}} = this.state
+    return (
+      <Code mobile={mobile} captcha={captcha}/>
+    )
   }
+
   /**
    * 校验手机验证码
    */
@@ -113,10 +100,6 @@ class RegisterScreen extends React.Component {
     if (value) { // if validation fails, value will be null
       if (value.password !== value.confirmPassword) {
         Alert.alert('Error', '输入的密码不一致', [{text: 'OK'}])
-        return
-      }
-      if (this.handleCheckCaptcha() == false) {
-        Alert.alert('Error', '请输入正确图形验证码', [{text: 'OK'}])
         return
       }
       if (this.handleCheckCode() == false) {
@@ -152,59 +135,6 @@ class RegisterScreen extends React.Component {
     })
   }
 
-  /**
-   * 图片验证码
-   * @returns {XML}
-   */
-  captchaImage () {
-    const {captchaUrl} = this.props
-    const {apiUrl} = AppConfig
-    return (
-      <TouchableOpacity onPress={this.handleRefreshCaptcha}>
-        <Image source={{uri: apiUrl + captchaUrl}}
-               style={{width: 120, height: 40}}/>
-      </TouchableOpacity>
-    )
-  }
-
-  /**
-   * 倒计时获取手机验证码
-   * @returns {XML}
-   */
-  coutDown () {
-    return (
-      <CountDownButton frameStyle={{right: 5, marginLeft: 15, flex: 1.5, height: 36}}
-                       beginText='获取验证码'
-                       endText='再次获取验证码'
-                       count={10}
-                       pressAction={ this.countDownPress}
-                       changeWithCount={(count) => count + 's后重新获取'}
-                       id='register'
-                       ref={(e) => {this.countDownButton = e}}
-      />
-    )
-  }
-
-  /**
-   * 倒计时按钮 按下 触发动作
-   */
-  countDownPress () {
-    let {accountValue: {mobile, captcha}} = this.state
-    if (mobile.length < 11) {
-      Alert.alert('Error', '手机格式不对', [{text: 'OK'}])
-      return false
-    }
-
-    if (this.handleCheckCaptcha()) {
-      this.props.getCode(mobile, captcha)
-      this.countDownButton.startCountDown()
-      // Alert.alert('发送成功', '手机验证码3分钟内会发放', [{text: 'OK'}])
-    } else {
-      Alert.alert('Error', '请核对图形验证码', [{text: 'OK'}])
-    }
-
-  }
-
   render () {
     var state = {
       accountModel: t.struct({
@@ -235,24 +165,25 @@ class RegisterScreen extends React.Component {
             placeholder: '请再次输入密码',
             secureTextEntry: true,
             returnKeyType: 'done',
-            onSubmitEditing: () => this.submitUpdate()
+            onSubmitEditing: () => this.refs.form.getComponent('captcha').refs.input.focus()
           },
           captcha: {
             label: '图片验证',
             placeholder: '图片验证',
-            template: Captcha,
+            template: Custom,
             config: {
               captcha: this.captchaImage
-            }
+            },
+            onSubmitEditing: () => this.refs.form.getComponent('code').refs.input.focus()
           },
           code: {
             label: '验证码',
             placeholder: '验证码',
-            template: Captcha,
+            template: Custom,
             config: {
               captcha: this.coutDown
-            }
-            // factory: CountDown
+            },
+            onSubmitEditing: () => this.submitUpdate()
           }
         }
       }
@@ -278,26 +209,18 @@ class RegisterScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const {register: {captchaUrl, checkCode, hash1, hash2, codeHash1, codeHash2},login:{authToken }} = state
   return {
     fetching: state.register.fetching,
     error: state.register.error,
-    captchaUrl,
-    checkCode,
-    hash1,
-    hash2,
-    codeHash1,
-    codeHash2,
-    authToken
+    authToken:state.login.authToken,
+    codeHash1: state.captchaCode.codeHash1,
+    codeHash2: state.captchaCode.codeHash2
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    register: (account) => dispatch(RegisterActions.registerRequest(account)),
-    getCaptcha: () => dispatch(RegisterActions.captchaRequest()),
-    getCode: (mobile, captcha) => dispatch(RegisterActions.codeRequest(mobile, captcha)),
-    checkCaptcha: (code) => dispatch(RegisterActions.captchaCheck(code))
+    register: (account) => dispatch(RegisterActions.registerRequest(account))
   }
 }
 
