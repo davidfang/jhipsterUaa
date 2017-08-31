@@ -78,7 +78,7 @@ class ChangePasswordScreen extends React.Component {
     const value = this.refs.form.getValue()
     if (value) { // if validation fails, value will be null
       if (value.password !== value.confirmPassword) {
-        Alert.alert('Error', 'Passwords do not match', [{text: 'OK'}])
+        Alert.alert('Error', '密码不一致', [{text: 'OK'}])
         return
       }
       if (this.handleCheckCode() == false) {
