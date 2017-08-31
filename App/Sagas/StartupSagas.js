@@ -1,6 +1,7 @@
 import { put, select } from 'redux-saga/effects'
 import AppStateActions from '../Redux/AppStateRedux'
 import GithubActions from '../Redux/GithubRedux'
+import LoginActions from '../Redux/LoginRedux'
 import { is } from 'ramda'
 
 // exported to make available for tests
@@ -34,6 +35,7 @@ export function * startup (action) {
     })
   }
   const avatar = yield select(selectAvatar)
+  yield put(LoginActions.loginLoad())
   // only get if we don't have it yet
   if (!is(String, avatar)) {
     yield put(GithubActions.userRequest('GantMan'))

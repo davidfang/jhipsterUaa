@@ -4,7 +4,6 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  View,
   Image,
   KeyboardAvoidingView,
   TouchableHighlight
@@ -17,7 +16,7 @@ import AppConfig from '../Config/AppConfig'
 
 import CountDownButton from '../Components/CountDownButton'
 
-import { CountDown, Captcha } from '../Components/CustomTcomb'
+import {  Captcha } from '../Components/CustomTcomb'
 // Styles
 import styles from './Styles/RegisterScreenStyle'
 

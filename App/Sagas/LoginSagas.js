@@ -1,5 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 import LoginActions from '../Redux/LoginRedux'
+import PasswordActions from '../Redux/PasswordRedux'
 import AccountActions from '../Redux/AccountRedux'
 
 export const selectAuthToken = (state) => state.login.authToken
@@ -20,11 +21,11 @@ export function * login (api, {identity, password}) {
       yield put(AccountActions.accountRequest(data.data.access_token))
       yield put({type: 'RELOGIN_OK'})
     } else {
-      yield put(LoginActions.loginFailure(data))
+      yield put(LoginActions.loginFailure('WRONG'))
     }
   } else { // 网络请求失败
     yield put(LoginActions.loginFailure('NET_WRONG'))
-    yield put(LoginActions.loginFailure(response))
+    yield put(LoginActions.loginFailure('网络请求失败'))
   }
 }
 
@@ -66,6 +67,8 @@ export function * loginLoad (api) {
     if (response.ok) {
       const data = response.data
       if (data.status) { // 用户登录验证成功
+        yield put(PasswordActions.changePasswordFailure(data))
+
         yield call(api.setAuthToken, authToken)
         yield put(LoginActions.loginLoadSuccess())
       } else {

@@ -59,18 +59,18 @@ const create = (baseURL = AppConfig.apiUrl) => {
     }
   })
   const register = (user) => api.post('api/v1/sign-in/signup', user)
-  const forgotPassword = (data) => api.post(AppConfig.uaaBaseUrl + 'api/account/reset_password/init', data, {
+  const forgotPassword = (data) => api.post('api/v1/sign-in/reset-password', data, {
     headers: {
-      'Content-Type': 'text/plain',
+      'Content-Type': 'application/json',
       'Accept': 'application/json, text/plain, */*'
     }
   })
 
   const getAccount = (access_token) => api.get('api/v1/profile/index', {'access-token':access_token})
   const updateAccount = (account) => api.post(AppConfig.uaaBaseUrl + 'api/account', account)
-  const changePassword = (newPassword) => api.post(AppConfig.uaaBaseUrl + 'api/account/change_password', newPassword, {
+  const changePassword = (data) => api.post('api/v1/sign-in/reset-password', data, {
     headers: {
-      'Content-Type': 'text/plain',
+      'Content-Type': 'application/json',
       'Accept': 'application/json, text/plain, */*'
     }
   })

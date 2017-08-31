@@ -87,11 +87,11 @@ export function * getCode (api, action) {
         const {hash1, hash2, code} = response.data.data
         yield put(RegisterActions.codeSuccess(hash1, hash2, code))
       } else {
-        yield put(RegisterActions.codeFailure(response))
+        yield put(RegisterActions.codeFailure('短信发送失败'))
       }
     } else {
       yield put(RegisterActions.codeFailure('NET_WRONG'))
-      yield put(RegisterActions.codeFailure(response))
+      yield put(RegisterActions.codeFailure('网络请求出错'))
     }
   } catch (error) {
     yield put(RegisterActions.codeFailure(error))

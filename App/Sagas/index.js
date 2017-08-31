@@ -14,6 +14,7 @@ import { RegisterTypes } from '../Redux/RegisterRedux'
 import { PasswordTypes } from '../Redux/PasswordRedux'
 import { OpenScreenTypes } from '../Redux/OpenScreenRedux'
 import { AccountTypes } from '../Redux/AccountRedux'
+import { CaptchaCodeTypes } from '../Redux/CaptchaCodeRedux'
 // ignite-jhipster-saga-redux-import-needle
 
 /* ------------- Sagas ------------- */
@@ -25,6 +26,7 @@ import { forgotPassword, changePassword } from './PasswordSagas'
 import { getUserAvatar } from './GithubSagas'
 import { openScreen } from './OpenScreenSagas'
 import { getAccount, updateAccount } from './AccountSagas'
+import { getCaptcha as GetCaptcha, getCode as GetCode } from './CaptchaCodeSagas'
 // ignite-jhipster-saga-method-import-needle
 
 /* ------------- API ------------- */
@@ -55,6 +57,10 @@ export default function * root () {
     takeLatest(RegisterTypes.CAPTCHA_CHECK, checkCaptcha, jhipsterApi),
     takeLatest(PasswordTypes.FORGOT_PASSWORD_REQUEST, forgotPassword, jhipsterApi),
     takeLatest(PasswordTypes.CHANGE_PASSWORD_REQUEST, changePassword, jhipsterApi),
+
+    takeLatest(CaptchaCodeTypes.CAPTCHA_REQUEST, GetCaptcha, jhipsterApi),
+    takeLatest(CaptchaCodeTypes.CODE_REQUEST, GetCode, jhipsterApi),
+
 
     takeLatest(AccountTypes.ACCOUNT_REQUEST, getAccount, jhipsterApi),
     takeLatest(AccountTypes.ACCOUNT_UPDATE_REQUEST, updateAccount, jhipsterApi),

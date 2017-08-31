@@ -1,9 +1,9 @@
 import { call, put } from 'redux-saga/effects'
 import PasswordActions from '../Redux/PasswordRedux'
 import { callApi } from './CallApiSaga'
-
+import LoginActions from '../Redux/LoginRedux'
 // attempts to request a password reset
-export function * forgotPassword (api, { email }) {
+export function * forgotPassword (api, {email}) {
   const response = yield call(api.forgotPassword, email)
   // success?
   if (response.ok) {
@@ -16,15 +16,24 @@ export function * forgotPassword (api, { email }) {
 }
 
 // attempts to request a password change
-export function * changePassword (api, { password }) {
-  const apiCall = call(api.changePassword, password)
+export function * changePassword (api, {mobile, code, password}) {
+  const apiCall = call(api.changePassword, {mobile, code, password, smsid: 1})
   const response = yield call(callApi, apiCall)
+  // const passObj = {mobile, code, password, smsid: 1}
+  // const response = yield call(api.changePassword, passObj)
   // success?
   if (response.ok) {
     console.tron.log('ChangePasswordRequest - OK')
-    yield put(PasswordActions.changePasswordSuccess(response.data))
+    if (response.data.status) {
+      yield put(PasswordActions.changePasswordSuccess('修改密码成功'))
+      yield put(LoginActions.loginLoad())
+    } else {
+      yield put(PasswordActions.changePasswordFailure('修改密码失败'))
+      // yield put(PasswordActions.changePasswordFailure(response))
+    }
+
   } else {
     console.tron.log('ChangePassword - FAIL')
-    yield put(PasswordActions.changePasswordFailure('WRONG'))
+    yield put(PasswordActions.changePasswordFailure('网络错误'))
   }
 }

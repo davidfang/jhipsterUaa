@@ -33,7 +33,7 @@ class LoginScreen extends React.Component {
     if (this.isAttempting && !newProps.fetching) {
       if (newProps.error) {
         if (newProps.error === 'WRONG') {
-          Alert.alert('Error', 'Invalid login', [{text: 'OK'}])
+          Alert.alert('Error', '用户名密码错误', [{text: 'OK'}])
         }
       } else {
         NavigationActions.pop()

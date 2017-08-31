@@ -12,7 +12,8 @@ export default () => {
     login: require('./LoginRedux').reducer,
     register: require('./RegisterRedux').reducer,
     password: require('./PasswordRedux').reducer,
-    search: require('./SearchRedux').reducer
+    search: require('./SearchRedux').reducer,
+    captchaCode: require('./CaptchaCodeRedux').reducer
   })
 
   return configureStore(rootReducer, rootSaga)
