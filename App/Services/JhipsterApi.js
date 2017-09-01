@@ -45,22 +45,15 @@ const create = (baseURL = AppConfig.apiUrl) => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
-  const setAuthToken = (userAuth) => api.setHeader('Authorization', 'Bearer ' + userAuth)
-  const removeAuthToken = () => api.setHeader('Authorization', '')
-  /*const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth, {
-    headers: {
-      'Authorization': 'Basic ' + new Buffer(AppConfig.oauthClientId + ':' + AppConfig.oauthClientSecret).toString('base64'),
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Accept': 'application/json, text/plain, *!/!*'
-    }
-  })*/
-  const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth)
-  const register = (user) => api.post('api/v1/sign-in/signup', user)
-  const forgotPassword = (data) => api.post('api/v1/sign-in/reset-password', data)
+  const setAuthToken = (userAuth) => api.setHeader('Authorization', 'Bearer ' + userAuth) // 设置token
+  const removeAuthToken = () => api.setHeader('Authorization', '') // 删除token
+  const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth) // 登录
+  const register = (user) => api.post('api/v1/sign-in/signup', user) // 注册
+  const forgotPassword = (data) => api.post('api/v1/sign-in/reset-password', data) // 忘记密码
 
-  const getAccount = () => api.get('api/v1/profile/index')//, {'access-token':access_token}
-  const updateAccount = (account) => api.put('api/v1/profile/update', account)
-  const changePassword = (data) => api.post('api/v1/sign-in/reset-password', data)
+  const getAccount = () => api.get('api/v1/profile/index') // 用户中心 获得用户信息
+  const updateAccount = (account) => api.put('api/v1/profile/update', account) // 更新用户信息
+  const changePassword = (data) => api.post('api/v1/sign-in/reset-password', data) // 修改密码
 
   const getCaptcha = () => api.get('site/captcha', {refresh: 'refresh'}) // 获取图片验证码
   const checkCaptcha = (code) => api.get('site/check-captcha', { code }) // 校验图片验证码
