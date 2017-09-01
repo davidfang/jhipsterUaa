@@ -6,7 +6,7 @@ import { callApi } from './CallApiSaga'
 // attempts to account
 export function * getAccount (api, action) {
   const {access_token} = action
-  const response = yield call(api.getAccount, access_token)
+  const response = yield call(api.getAccount)
 
   // success?
   if (response.ok) {
@@ -36,9 +36,13 @@ export function * updateAccount (api, action) {
   // success?
   if (response.ok) {
     console.tron.log('AccountUpdate - OK')
-    yield put(AccountActions.accountUpdateSuccess(account))
+    if(response.data.status) {
+      yield put(AccountActions.accountUpdateSuccess(response.data.data))
+    }else{
+      yield put(AccountActions.accountFailure('更新失败'))
+    }
   } else {
     console.tron.log('AccountUpdate - FAIL')
-    yield put(AccountActions.accountFailure('WRONG'))
+    yield put(AccountActions.accountFailure('网络错误'))
   }
 }

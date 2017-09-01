@@ -1,6 +1,5 @@
 import { call, put, select } from 'redux-saga/effects'
 import LoginActions from '../Redux/LoginRedux'
-import PasswordActions from '../Redux/PasswordRedux'
 import AccountActions from '../Redux/AccountRedux'
 
 export const selectAuthToken = (state) => state.login.authToken
@@ -18,7 +17,7 @@ export function * login (api, {identity, password}) {
     if (data.status) { // 用户登录验证成功
       yield call(api.setAuthToken, data.data.access_token)
       yield put(LoginActions.loginSuccess(data.data.access_token))
-      yield put(AccountActions.accountRequest(data.data.access_token))
+      // yield put(AccountActions.accountRequest(data.data.access_token))
       yield put({type: 'RELOGIN_OK'})
     } else {
       yield put(LoginActions.loginFailure('WRONG'))
@@ -61,19 +60,20 @@ export function * loginLoad (api) {
   const authToken = yield select(selectAuthToken)
   // only set the token if we have it
   if (authToken !== null) {
-
-    const response = yield call(api.getAccount, authToken)
+    yield call(api.setAuthToken, authToken)
+    const response = yield call(api.getAccount)
 
     if (response.ok) {
       const data = response.data
       if (data.status) { // 用户登录验证成功
-        yield put(PasswordActions.changePasswordFailure(data))
+        // yield put(PasswordActions.changePasswordFailure(data))
 
         yield call(api.setAuthToken, authToken)
         yield put(LoginActions.loginLoadSuccess())
+        yield put(AccountActions.accountUpdateSuccess(response.data.data))
       } else {
         yield put(LoginActions.loginFailure('LOGIN-WRONG'))
-        yield put(LoginActions.loginFailure(data.msg))
+        yield put(LoginActions.loginFailure(data))
 
         yield logout(api)
       }

@@ -15,36 +15,32 @@ class SettingsScreen extends React.Component {
     super(props)
     this.state = {
       accountModel: t.struct({
-        firstName: t.String,
-        lastName: t.String,
-        login: t.String,
-        email: t.String,
-        langKey: t.String,
-        activated: t.Boolean
+        province: t.String,
+        city: t.String,
+        area: t.String,
+        gender: t.Boolean
       }),
       accountValue: this.props.account,
       options: {
         fields: {
-          firstName: {
+          province: {
+            label: '省',
             returnKeyType: 'next',
-            onSubmitEditing: () => this.refs.form.getComponent('lastName').refs.input.focus()
+            onSubmitEditing: () => this.refs.form.getComponent('city').refs.input.focus()
           },
-          lastName: {
+          city: {
+            label: '市',
             returnKeyType: 'next',
-            onSubmitEditing: () => this.refs.form.getComponent('email').refs.input.focus()
+            onSubmitEditing: () => this.refs.form.getComponent('area').refs.input.focus()
           },
-          login: {
-            hidden: true
-          },
-          email: {
+          area: {
+            label: '区',
             returnKeyType: 'done',
+            onSubmitEditing: () => this.refs.form.getComponent('gender').refs.input.focus()
+          },
+          gender: {
+            label: '性别',
             onSubmitEditing: () => this.submitUpdate()
-          },
-          langKey: {
-            hidden: true
-          },
-          activated: {
-            hidden: true
           }
         }
       },
@@ -110,7 +106,7 @@ class SettingsScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.account.account,
+    account: state.account.account.profile,
     updating: state.account.updating,
     error: state.account.error
   }

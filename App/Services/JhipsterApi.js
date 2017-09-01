@@ -16,7 +16,9 @@ const create = (baseURL = AppConfig.apiUrl) => {
     baseURL,
     // here are some default headers
     headers: {
-      'Cache-Control': 'no-cache'
+      'Cache-Control': 'no-cache',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/plain, */*'
     },
     // 10 second timeout...
     timeout: 10000
@@ -52,28 +54,13 @@ const create = (baseURL = AppConfig.apiUrl) => {
       'Accept': 'application/json, text/plain, *!/!*'
     }
   })*/
-  const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json, text/plain, */*'
-    }
-  })
+  const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth)
   const register = (user) => api.post('api/v1/sign-in/signup', user)
-  const forgotPassword = (data) => api.post('api/v1/sign-in/reset-password', data, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json, text/plain, */*'
-    }
-  })
+  const forgotPassword = (data) => api.post('api/v1/sign-in/reset-password', data)
 
-  const getAccount = (access_token) => api.get('api/v1/profile/index', {'access-token':access_token})
-  const updateAccount = (account) => api.post(AppConfig.uaaBaseUrl + 'api/account', account)
-  const changePassword = (data) => api.post('api/v1/sign-in/reset-password', data, {
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json, text/plain, */*'
-    }
-  })
+  const getAccount = () => api.get('api/v1/profile/index')//, {'access-token':access_token}
+  const updateAccount = (account) => api.put('api/v1/profile/update', account)
+  const changePassword = (data) => api.post('api/v1/sign-in/reset-password', data)
 
   const getCaptcha = () => api.get('site/captcha', {refresh: 'refresh'}) // 获取图片验证码
   const checkCaptcha = (code) => api.get('site/check-captcha', { code }) // 校验图片验证码

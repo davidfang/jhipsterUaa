@@ -86,12 +86,12 @@ export default {
       data: require('../Fixtures/root.json')
     }
   },
-  getAccount: (access_token) => {
+  getAccount: () => {
     const accounts = require('../Fixtures/account.json')
-    if (accounts[access_token] !== null) {
+    if (accounts !== null) {
       return {
         ok: true,
-        data: accounts[access_token]
+        data: accounts["getAccount"]
       }
     } else {
       return {
