@@ -52,13 +52,13 @@ class DrawerContent extends Component {
     return (
       <ScrollView style={styles.container}>
         <Image source={Images.logoJhipster} style={styles.logo} />
-        {!this.props.loggedIn && (<DrawerButton text='Login' onPress={this.handlePressLogin} />)}
-        {!this.props.loggedIn && (<DrawerButton text='Register' onPress={this.handlePressRegister} />)}
-        {!this.props.loggedIn && (<DrawerButton text='Forgot Password' onPress={this.handlePressForgotPassword} />)}
+        {!this.props.loggedIn && (<DrawerButton text='登录' onPress={this.handlePressLogin} />)}
+        {!this.props.loggedIn && (<DrawerButton text='注册' onPress={this.handlePressRegister} />)}
+        {!this.props.loggedIn && (<DrawerButton text='忘记密码' onPress={this.handlePressForgotPassword} />)}
 
-        {this.props.loggedIn && (<DrawerButton text='Settings' onPress={this.handlePressSettings} />)}
-        {this.props.loggedIn && (<DrawerButton text='Change Password' onPress={this.handlePressChangePassword} />)}
-        {this.props.loggedIn && (<DrawerButton text='Logout' onPress={this.handlePressLogout} />)}
+        {this.props.loggedIn && (<DrawerButton text='设置' onPress={this.handlePressSettings} />)}
+        {this.props.loggedIn && (<DrawerButton text='修改密码' onPress={this.handlePressChangePassword} />)}
+        {this.props.loggedIn && (<DrawerButton text='退出' onPress={this.handlePressLogout} />)}
       </ScrollView>
     )
   }

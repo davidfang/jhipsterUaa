@@ -1,6 +1,7 @@
 import React from 'react'
 import { Alert, ScrollView, Text, KeyboardAvoidingView, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
+import { Actions as NavigationActions } from 'react-native-router-flux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 import AccountActions from '../Redux/AccountRedux'
 import t from 'tcomb-form-native'
@@ -72,7 +73,8 @@ class SettingsScreen extends React.Component {
         this.setState({
           success: true
         })
-        Alert.alert('Success', 'Settings updated', [{text: 'OK'}])
+        Alert.alert('Success', '设置成功', [{text: 'OK'}])
+        NavigationActions.pop()
       }
     }
   }

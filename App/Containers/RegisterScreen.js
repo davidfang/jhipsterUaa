@@ -3,22 +3,22 @@ import {
   Alert,
   ScrollView,
   Text,
-  TouchableOpacity,
-  Image,
+  View,
+  Button,
   KeyboardAvoidingView,
   TouchableHighlight
 } from 'react-native'
 import { connect } from 'react-redux'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import RegisterActions from '../Redux/RegisterRedux'
-import PasswordActions from '../Redux/PasswordRedux'
-import LoginActions from '../Redux/LoginRedux'
 import t from 'tcomb-form-native'
 import { Captcha as Custom } from '../Components/CustomTcomb'
 import Captcha from './Captcha'
 import Code from './Code'
 // Styles
 import styles from './Styles/RegisterScreenStyle'
+
+
 
 let Form = t.form.Form
 
@@ -140,6 +140,7 @@ class RegisterScreen extends React.Component {
       let reg = /^1[3|4|5|7|8][0-9]{9}$/  //验证规则
       return reg.test(m) //true
     })
+
     const state = {
       accountModel: t.struct({
         mobile: Mobile,
@@ -203,9 +204,15 @@ class RegisterScreen extends React.Component {
             onChange={this.accountChange}
           />
           <TouchableHighlight style={styles.button} onPress={this.submitUpdate} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Save</Text>
+            <Text style={styles.buttonText}>注册</Text>
           </TouchableHighlight>
         </KeyboardAvoidingView>
+        <View style={styles.viewWrap}>
+          <View style={styles.textWrap}>
+            <Button bordered title='忘记密码' onPress={() => NavigationActions.forgotPassword()}>忘记密码?</Button>
+            <Button bordered title='登录' onPress={() => NavigationActions.login()}>登录</Button>
+          </View>
+        </View>
       </ScrollView>
     )
   }

@@ -1,4 +1,4 @@
-import {Colors} from '../../Themes/'
+import {Metrics, Colors} from '../../Themes/'
 
 export default {
   container: {
@@ -15,5 +15,12 @@ export default {
   },
   rightButton: {
     color: Colors.snow
+  },
+  tabBarStyle: {
+    borderWidth : .5,
+    borderColor    : Colors.eggplant,
+    backgroundColor: Colors.banner,
+    opacity        : 1,
+    height         : Metrics.tabBarHeight
   }
 }

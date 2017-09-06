@@ -12,17 +12,26 @@ export default StyleSheet.create({
     borderRadius: 4
   },
   row: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: Metrics.doubleBaseMargin,
     paddingHorizontal: Metrics.doubleBaseMargin
   },
   rowLabel: {
+    fontSize: 18,
     color: Colors.charcoal
   },
   textInput: {
+    marginLeft: Metrics.baseMargin,
+    flex: 1,
     height: 40,
-    color: Colors.coal
+    color: Colors.coal,
+    borderColor: Colors.steel,
+    borderWidth: .5
   },
   textInputReadonly: {
+    flex: 1,
     height: 40,
     color: Colors.steel
   },
@@ -48,5 +57,32 @@ export default StyleSheet.create({
   topLogo: {
     alignSelf: 'center',
     resizeMode: 'contain'
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 36,
+    backgroundColor: Colors.jhipsterBlue,
+    borderColor: Colors.jhipsterBlue,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  viewWrap: {
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20
+  },
+  textWrap: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10
   }
 })

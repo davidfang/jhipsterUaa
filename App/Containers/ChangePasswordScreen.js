@@ -170,7 +170,7 @@ class ChangePasswordScreen extends React.Component {
             onChange={this.formChange}
           />
           <TouchableHighlight style={styles.button} onPress={this.submitForm} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}>Save</Text>
+            <Text style={styles.buttonText}>提交</Text>
           </TouchableHighlight>
         </KeyboardAvoidingView>
       </ScrollView>

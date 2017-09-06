@@ -22,5 +22,15 @@ export default StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
+  },
+  viewWrap: {
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20
+  },
+  textWrap: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10
   }
 })

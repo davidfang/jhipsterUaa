@@ -17,5 +17,22 @@ export default StyleSheet.create({
   },
   centered: {
     alignItems: 'center'
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 36,
+    backgroundColor: Colors.fire,
+    borderColor: Colors.fire,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   }
 })

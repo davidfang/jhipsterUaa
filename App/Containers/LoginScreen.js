@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { Alert, Image, View, ScrollView, Text, TextInput, TouchableOpacity } from 'react-native'
+import { Alert, Image, View, ScrollView, Text, TextInput, Button, TouchableOpacity, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import styles from './Styles/LoginScreenStyles'
 import { Images, Metrics } from '../Themes'
@@ -22,7 +22,7 @@ class LoginScreen extends React.Component {
       username: '',
       password: '',
       visibleHeight: Metrics.screenHeight,
-      topLogo: { width: Metrics.screenWidth }
+      topLogo: {width: Metrics.screenWidth}
     }
     this.isAttempting = false
   }
@@ -36,13 +36,13 @@ class LoginScreen extends React.Component {
           Alert.alert('Error', '用户名密码错误', [{text: 'OK'}])
         }
       } else {
-        NavigationActions.pop()
+        NavigationActions.launchScreen()
       }
     }
   }
 
   handlePressLogin = () => {
-    const { username, password } = this.state
+    const {username, password} = this.state
     this.isAttempting = true
     // attempt a login - a saga is listening to pick it up from here.
     this.props.attemptLogin(username, password)
@@ -53,24 +53,25 @@ class LoginScreen extends React.Component {
   }
 
   handleChangeUsername = (text) => {
-    this.setState({ username: text })
+    this.setState({username: text})
   }
 
   handleChangePassword = (text) => {
-    this.setState({ password: text })
+    this.setState({password: text})
   }
 
   render () {
-    const { username, password } = this.state
-    const { fetching } = this.props
+    const {username, password} = this.state
+    const {fetching} = this.props
     const editable = !fetching
     const textInputStyle = editable ? styles.textInput : styles.textInputReadonly
     return (
-      <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
-        <Image source={Images.logoLogin} style={[styles.topLogo, this.state.topLogo]} />
+      <ScrollView contentContainerStyle={{justifyContent: 'center'}}
+                  style={[styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
+        <Image source={Images.logoLogin} style={[styles.topLogo, this.state.topLogo]}/>
         <View style={styles.form}>
           <View style={styles.row}>
-            <Text style={styles.rowLabel}>Username</Text>
+            <Text style={styles.rowLabel}>用户名</Text>
             <TextInput
               ref='username'
               style={textInputStyle}
@@ -83,11 +84,11 @@ class LoginScreen extends React.Component {
               onChangeText={this.handleChangeUsername}
               underlineColorAndroid='transparent'
               onSubmitEditing={() => this.refs.password.focus()}
-              placeholder='Username' />
+              placeholder='用户名'/>
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.rowLabel}>Password</Text>
+            <Text style={styles.rowLabel}>密码</Text>
             <TextInput
               ref='password'
               style={textInputStyle}
@@ -101,22 +102,23 @@ class LoginScreen extends React.Component {
               onChangeText={this.handleChangePassword}
               underlineColorAndroid='transparent'
               onSubmitEditing={this.handlePressLogin}
-              placeholder='Password' />
+              placeholder='密码'/>
           </View>
 
-          <View style={[styles.loginRow]}>
-            <TouchableOpacity style={styles.loginButtonWrapper} onPress={this.handlePressLogin}>
-              <View style={styles.loginButton}>
-                <Text style={styles.loginText}>Sign In</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.loginButtonWrapper} onPress={this.handlePressCancel}>
-              <View style={styles.loginButton}>
-                <Text style={styles.loginText}>Cancel</Text>
-              </View>
-            </TouchableOpacity>
+          <TouchableHighlight style={styles.button} onPress={this.handlePressLogin} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>登录</Text>
+          </TouchableHighlight>
+
+
+        </View>
+
+        <View style={styles.viewWrap}>
+          <View style={styles.textWrap}>
+            <Button bordered title='忘记密码' onPress={() => NavigationActions.forgotPassword()}>忘记密码?</Button>
+            <Button bordered title='注册新帐户' onPress={() => NavigationActions.register()}>注册新账户</Button>
           </View>
         </View>
+
 
       </ScrollView>
     )
