@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { connect } from 'react-redux'
 import { Scene, Router } from 'react-native-router-flux'
 import styles from './Styles/NavigationContainerStyles'
