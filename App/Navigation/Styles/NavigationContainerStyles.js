@@ -1,11 +1,11 @@
-import {Metrics, Colors} from '../../Themes/'
+import {Metrics,ApplicationStyles, Colors} from '../../Themes/'
 
 export default {
   container: {
     flex: 1
   },
   navBar: {
-    backgroundColor: Colors.background
+    ...ApplicationStyles.navBar
   },
   title: {
     color: Colors.snow
@@ -17,10 +17,9 @@ export default {
     color: Colors.snow
   },
   tabBarStyle: {
-    borderWidth : .5,
-    borderColor    : Colors.eggplant,
-    backgroundColor: Colors.banner,
+    //borderWidth : .5,
+    backgroundColor: ApplicationStyles.tabBar.backgroundColor,
     opacity        : 1,
-    height         : Metrics.tabBarHeight
+    height         : ApplicationStyles.tabBar.height
   }
 }

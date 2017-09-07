@@ -74,6 +74,21 @@ const ApplicationStyles = {
     borderColor: Colors.ember,
     alignItems: 'center',
     textAlign: 'center'
+  },
+  tabBar: {
+    height: Metrics.tabBarHeight,
+    backgroundColor: Colors.bloodOrange
+  },
+  tab: {
+    iconColor: Colors.snow,
+    textColor: Colors.snow
+  },
+  navBar: {
+    height: Metrics.navBarHeight,
+    color: Colors.snow,
+    backgroundColor: Colors.bloodOrange,
+    margin: 0,
+    padding: 0
   }
 }
 
