@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Platform } from 'react-native'
+import { View, Text, Platform, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import styles from './Styles/RowItemStyle'
 import { Metrics, Fonts, Colors } from '../Themes'
@@ -9,7 +9,7 @@ export default class RowItem extends React.Component {
     const {title, icon, iconColor} = this.props
 
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={this.props.onPress}>
         <View style={styles.left}>
           <Icon name={icon} color={iconColor} size={32}/>
         </View>
@@ -27,7 +27,7 @@ export default class RowItem extends React.Component {
 
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 }
@@ -36,7 +36,8 @@ export default class RowItem extends React.Component {
 RowItem.propTypes = {
   title: React.PropTypes.string.isRequired,
   icon: React.PropTypes.string.isRequired,
-  iconColor: React.PropTypes.string.isRequired
+  iconColor: React.PropTypes.string.isRequired,
+  onPress: React.PropTypes.func
 }
 
 // Defaults for props

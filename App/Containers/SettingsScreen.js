@@ -14,12 +14,46 @@ class SettingsScreen extends React.Component {
 
   constructor (props) {
     super(props)
+    var Gender = t.enums({
+      M: 1,
+      F: 2
+    });
+
+
+
+    const AccountType = t.enums.of([
+      'type 1',
+      'type 2',
+      'other'
+    ], 'AccountType')
+
+    const KnownAccount = t.struct({
+      type: AccountType
+    }, 'KnownAccount')
+
+// UnknownAccount extends KnownAccount so it owns also the type field
+    const UnknownAccount = KnownAccount.extend({
+      label: t.String,
+    }, 'UnknownAccount')
+
+// the union
+    const Account = t.union([KnownAccount, UnknownAccount], 'Account')
+
+// the final form type
+    const Type = t.list(Account)
+
+
+
+
     this.state = {
       accountModel: t.struct({
         province: t.String,
         city: t.String,
         area: t.String,
-        gender: t.Boolean
+        gender: t.enums({
+          1: '男',
+          2: '女'
+        })
       }),
       accountValue: this.props.account,
       options: {
@@ -43,6 +77,7 @@ class SettingsScreen extends React.Component {
             label: '性别',
             onSubmitEditing: () => this.submitUpdate()
           }
+
         }
       },
       success: false
@@ -58,7 +93,7 @@ class SettingsScreen extends React.Component {
     // call getValue() to get the values of the form
     const value = this.refs.form.getValue()
     if (value) { // if validation fails, value will be null
-      this.props.updateAccount(value)
+      this.props.updateProfile(value)
     }
   }
 
@@ -73,7 +108,7 @@ class SettingsScreen extends React.Component {
         this.setState({
           success: true
         })
-        Alert.alert('Success', '设置成功', [{text: 'OK'}])
+        // Alert.alert('Success', '设置成功', [{text: 'OK'}])
         NavigationActions.pop()
       }
     }
@@ -108,7 +143,7 @@ class SettingsScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    account: state.account.account.profile,
+    account: state.account.profile,
     updating: state.account.updating,
     error: state.account.error
   }
@@ -116,7 +151,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateAccount: (account) => dispatch(AccountActions.accountUpdateRequest(account))
+    updateProfile: (profile) => dispatch(AccountActions.profileUpdateRequest(profile))
   }
 }
 

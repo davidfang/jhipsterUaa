@@ -35,14 +35,14 @@ class NavigationRouter extends Component {
     return (
       <Router>
         <Scene key='root' tabs={true} tabBarStyle={styles.tabBarStyle} >
-          <Scene key='launchScreen' initial  icon={TabIcon} component={LaunchScreen} title='欢迎'
+          <Scene key='launchScreen' initial hideNavBar={true}  icon={TabIcon} component={LaunchScreen} title='欢迎'
                  iconName="home"  navigationBarStyle={styles.navBar} titleStyle={styles.title} navBar={CustomNavBar}
                  selectedIconName="home-outline" iconColor={ApplicationStyles.tab.iconColor}
                  textColor={ApplicationStyles.tab.textColor}/>
           <Scene key='ucenter' icon={TabIcon} title='我的' iconName="person" selectedIconName="person-outline"
                  iconColor={ApplicationStyles.tab.iconColor} textColor={ApplicationStyles.tab.textColor}  navigationBarStyle={styles.navBar} titleStyle={styles.title}>
             <Scene key='myCenter' initial component={MyCenter} title='用户中心' />
-            <Scene key='settings' component={SettingsScreen} title='设置'/>
+            <Scene key='setting' component={SettingsScreen} title='设置'/>
             <Scene key='forgotPassword' component={ForgotPasswordScreen} title='忘记密码'/>
 
             <Scene key='login' component={LoginScreen} title='登录'/>

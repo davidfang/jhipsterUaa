@@ -7,8 +7,11 @@ const {Types, Creators} = createActions({
   accountUpdateRequest: ['account'],
   accountSuccess: ['account'],
   accountUpdateSuccess: ['account'],
+  profileUpdateRequest: ['profile'],
+  profileUpdateSuccess: ['profile'],
+  profileUpdateFailure: ['error'],
   accountFailure: ['error'],
-  logout: null
+  accountLogout: null
 })
 
 export const AccountTypes = Types
@@ -17,10 +20,15 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  account: null,
   error: null,
   fetching: false,
-  updating: false
+  updating: false,
+  id: null,
+  username: null,
+  mobile: null,
+  invitation_code: null,
+  avatar: null,
+  profile: null
 })
 
 /* ------------- Reducers ------------- */
@@ -37,13 +45,19 @@ export const success = (state, data) => {
   return state.merge({fetching: false, error: null, account})
 }
 // we've successfully updated the account
+export const profileUpdateSuccess = (state, data) => {
+  const {profile} = data
+  return state.merge({error: null, updating: false, profile})
+}// we've successfully updated the account
 export const updateSuccess = (state, data) => {
   const {account} = data
-  return state.merge({error: null, updating: false, account})
+  return state.merge({error: null, updating: false, ...account})
 }
 
 // we've had a problem logging in
-export const failure = (state, {error}) => state.merge({account: null, fetching: false, updating: false, error})
+export const failure = (state, {error}) => state.merge({...INITIAL_STATE, error})
+
+export const logout = (state) => INITIAL_STATE
 
 /* ------------- Hookup Reducers To Types ------------- */
 
@@ -52,7 +66,11 @@ export const reducer = createReducer(INITIAL_STATE, {
   [Types.ACCOUNT_UPDATE_REQUEST]: updateRequest,
   [Types.ACCOUNT_SUCCESS]: success,
   [Types.ACCOUNT_UPDATE_SUCCESS]: updateSuccess,
-  [Types.ACCOUNT_FAILURE]: failure
+  [Types.PROFILE_UPDATE_REQUEST]: updateRequest,
+  [Types.PROFILE_UPDATE_SUCCESS]: profileUpdateSuccess,
+  [Types.PROFILE_UPDATE_FAILURE]: failure,
+  [Types.ACCOUNT_FAILURE]: failure,
+  [Types.ACCOUNT_LOGOUT]: logout
 })
 
 /* ------------- Selectors ------------- */

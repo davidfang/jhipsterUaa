@@ -3,15 +3,17 @@ import { Fonts, Colors } from '../../Themes/'
 
 export default StyleSheet.create({
   button: {
-    marginVertical: 5,
-    borderTopColor: Colors.fire,
-    borderBottomColor: Colors.bloodOrange,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    backgroundColor: Colors.ember
+    //marginVertical: 5,
+    //borderTopColor: Colors.fire,
+    //borderBottomColor: Colors.bloodOrange,
+    //borderTopWidth: 1,
+    //borderBottomWidth: 1,
+    backgroundColor: Colors.bloodOrange,
+    borderRadius: 5,
+    margin: 5
   },
   buttonText: {
-    margin: 18,
+    margin: 10,
     textAlign: 'center',
     color: Colors.snow,
     fontSize: Fonts.size.medium,

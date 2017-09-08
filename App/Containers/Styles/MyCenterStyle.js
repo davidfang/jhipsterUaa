@@ -1,19 +1,20 @@
 import { StyleSheet } from 'react-native'
-import { Colors, Metrics} from '../../Themes/'
+import { Colors, Metrics } from '../../Themes/'
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Metrics.navBarHeight,
-    // backgroundColor: Colors.background
+    backgroundColor: Colors.steel
   },
   intro: {
     width: Metrics.screenWidth,
     height: Metrics.screenWidth / 5,
-    backgroundColor:Colors.steel,
+    backgroundColor: Colors.steel,
     paddingLeft: Metrics.doubleBaseMargin,
     paddingRight: Metrics.doubleBaseMargin,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   introLeft: {
@@ -29,6 +30,11 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginLeft: 20
+  },
+  rowItemGroup: {
+    marginTop: Metrics.baseMargin,
+    // marginBottom: Metrics.baseMargin,
+    backgroundColor: Colors.silver
   },
   title: {
     color: Colors.silver

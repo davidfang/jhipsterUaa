@@ -3,7 +3,7 @@ import { Alert, ScrollView, Text, KeyboardAvoidingView, TouchableHighlight } fro
 import { connect } from 'react-redux'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import PasswordActions from '../Redux/PasswordRedux'
-import LoginActions from '../Redux/LoginRedux'
+import LoginActions, {isLoggedIn} from '../Redux/LoginRedux'
 import t from 'tcomb-form-native'
 // Styles
 import styles from './Styles/ChangePasswordScreenStyle'
@@ -106,7 +106,12 @@ class ChangePasswordScreen extends React.Component {
       }
     }
   }
-
+  componentDidMount(){
+    if(!this.props.loggedIn){
+      NavigationActions.login()
+      return
+    }
+  }
   formChange (newValue) {
     this.setState({
       formValue: newValue
@@ -181,10 +186,11 @@ class ChangePasswordScreen extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    loggedIn: isLoggedIn(state.login),
     fetching: state.password.fetching,
     error: state.password.error,
     change: state.password.change,
-    mobile: state.account.account.mobile,
+    mobile: state.account.mobile,
     codeHash1: state.captchaCode.codeHash1,
     codeHash2: state.captchaCode.codeHash2
   }

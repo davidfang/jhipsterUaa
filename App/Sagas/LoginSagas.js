@@ -33,7 +33,7 @@ export function * logout (api) {
   // todo I think oauth uses this?
   // const response = yield call(api.logout)
   yield call(api.removeAuthToken)
-  yield put(AccountActions.logout())
+  yield put(AccountActions.accountLogout())
   yield put(LoginActions.logoutSuccess())
   yield put({type: 'RELOGIN_ABORT'})
 }

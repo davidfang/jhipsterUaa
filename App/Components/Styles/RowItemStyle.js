@@ -18,9 +18,10 @@ export default StyleSheet.create({
     flex: 9,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     borderBottomColor: Colors.steel,
     borderBottomWidth: 0.5,
-    marginLeft:Metrics.baseMargin
+    marginLeft: Metrics.baseMargin
   },
   title: {
     ...Fonts.style.normal

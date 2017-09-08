@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, Text, View, Platform } from 'react-native'
+import { ScrollView, Text, View, Platform,TouchableOpacity } from 'react-native'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 import { connect } from 'react-redux'
@@ -10,6 +10,8 @@ import { Actions as NavigationActions } from 'react-native-router-flux'
 import LoginActions, { isLoggedIn } from '../Redux/LoginRedux'
 
 import DrawerButton from '../Components/DrawerButton'
+import FullButton from '../Components/FullButton'
+import RoundedButton from '../Components/RoundedButton'
 import Avatar from '../Components/Avatar'
 import RowItem from '../Components/RowItem'
 
@@ -29,64 +31,70 @@ class MyCenter extends React.Component {
   //   this.state = {}
   // }
 
-  handlePressLogin = () => {
-    NavigationActions.login()
-  }
-  handlePressRegister = () => {
-    NavigationActions.register()
-  }
-  handlePressForgotPassword = () => {
-    NavigationActions.forgotPassword()
-  }
-  handlePressSettings = () => {
-    NavigationActions.settings()
-  }
-  handlePressChangePassword = () => {
-    NavigationActions.changePassword()
-  }
-  handlePressLogout = () => {
-    this.props.logout()
-  }
-
-  render () {
-    return (
-      <ScrollView style={styles.container}>
+  userHead = () => {
+    const {loggedIn, username, avatar} = this.props
+    if (loggedIn) {
+      return (
         <View style={styles.intro}>
           <View style={styles.introLeft}>
-            <Avatar width={50} name='张三'/>
+            <Avatar width={50} name={username} avatar={avatar}/>
           </View>
-          <View style={styles.introRight}>
-            <Text style={Fonts.style.h3}>张三</Text>
+          <TouchableOpacity style={styles.introRight} onPress={() => NavigationActions.setting()}>
+            <Text style={Fonts.style.h3}>{username}</Text>
             {Platform.OS === 'ios' ? <Icon name="ios-arrow-forward" color={Colors.charcoal} size={18}/>
               : null
             }
             {Platform.OS === 'android' ? <Icon name="md-arrow-forward" color={Colors.charcoal} size={18}/>
               : null
             }
-          </View>
+          </TouchableOpacity>
         </View>
-        <View style={{marginTop: Metrics.baseMargin, marginBottom: Metrics.baseMargin}}>
+      )
+    } else {
+      return (
+        <View style={styles.intro}>
+          <FullButton text={'登录'} onPress={() => NavigationActions.login()}/>
+          <FullButton text={'注册'} onPress={() => NavigationActions.register()}/>
+        </View>
+      )
+    }
+  }
+
+  render () {
+    return (
+      <ScrollView style={styles.container}>
+        {this.userHead()}
+        {this.props.loggedIn && (
+          <View style={styles.rowItemGroup}>
+            <RowItem title="修改密码" icon="md-key" iconColor='lightskyblue'
+                     onPress={() => NavigationActions.changePassword()  }/>
+
+          </View>)
+        }
+        <View style={styles.rowItemGroup}>
           <RowItem title="首页内容展示顺序" icon="md-reorder" iconColor='lightskyblue'/>
           <RowItem title="主题颜色" icon="ios-color-palette" iconColor={Colors.fire}/>
 
         </View>
-        <View/>
-        {!this.props.loggedIn && (<DrawerButton text='登录' onPress={this.handlePressLogin}/>)}
-        {!this.props.loggedIn && (<DrawerButton text='注册' onPress={this.handlePressRegister}/>)}
-        {!this.props.loggedIn && (<DrawerButton text='忘记密码' onPress={this.handlePressForgotPassword}/>)}
 
-        {this.props.loggedIn && (<DrawerButton text='设置' onPress={this.handlePressSettings}/>)}
-        {this.props.loggedIn && (<DrawerButton text='修改密码' onPress={this.handlePressChangePassword}/>)}
-        {this.props.loggedIn && (<DrawerButton text='退出' onPress={this.handlePressLogout}/>)}
-        <Text>MyCenter Container 已登录</Text>
+        <View style={styles.rowItemGroup}>
+          <RowItem title="反馈" icon="md-text" iconColor='lightskyblue'/>
+          <RowItem title="分享" icon="md-share" iconColor={Colors.fire}/>
+
+        </View>
+        <View/>
+        {this.props.loggedIn && (<RoundedButton text={'退出'} onPress={() => this.props.logout()}/>)}
       </ScrollView>
     )
   }
 }
 
 const mapStateToProps = (state) => {
+  const {username, avatar} = state.account
   return {
-    loggedIn: isLoggedIn(state.login)
+    loggedIn: isLoggedIn(state.login),
+    username,
+    avatar
   }
 }
 
