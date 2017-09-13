@@ -49,7 +49,6 @@ class NavigationRouter extends Component {
             <Scene key='register' component={RegisterScreen} title='注册'/>
             <Scene key='changePassword' component={ChangePasswordScreen} title='修改密码'/>
           </Scene>
-
           {/* ignite-jhipster-navigation-needle */}
         </Scene>
       </Router>

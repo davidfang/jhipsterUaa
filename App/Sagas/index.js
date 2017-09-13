@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga/effects'
+import { takeLatest,takeEvery } from 'redux-saga/effects'
 import API from '../Services/Api'
 import JHIPSTER_API from '../Services/JhipsterApi'
 import FixtureAPI from '../Services/FixtureApi'
@@ -8,6 +8,7 @@ import DebugConfig from '../Config/DebugConfig'
 /* ------------- Types ------------- */
 
 import { StartupTypes } from '../Redux/StartupRedux'
+import { AppSetTypes } from '../Redux/AppSetRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
 import { RegisterTypes } from '../Redux/RegisterRedux'
@@ -20,13 +21,14 @@ import { CaptchaCodeTypes } from '../Redux/CaptchaCodeRedux'
 /* ------------- Sagas ------------- */
 
 import { startup } from './StartupSagas'
+import { getAppSet, getAppSetProvince } from './AppSetSagas'
 import { login, logout, loginLoad, loginRefresh } from './LoginSagas'
 import { register } from './RegisterSagas'
 import { forgotPassword, changePassword } from './PasswordSagas'
 import { getUserAvatar } from './GithubSagas'
 import { openScreen } from './OpenScreenSagas'
-import { getAccount, updateAccount ,updateProfile} from './AccountSagas'
-import { getCaptcha, getCode} from './CaptchaCodeSagas'
+import { getAccount, updateAccount, updateProfile } from './AccountSagas'
+import { getCaptcha, getCode } from './CaptchaCodeSagas'
 // ignite-jhipster-saga-method-import-needle
 
 /* ------------- API ------------- */
@@ -41,9 +43,11 @@ const jhipsterApi = JHIPSTER_API.create()
 /* ------------- Connect Types To Sagas ------------- */
 
 export default function * root () {
-  yield [
+
+  yield  [
     // some sagas only receive an action
     takeLatest(StartupTypes.STARTUP, startup),
+    takeEvery(AppSetTypes.PROVINCE_REQUEST, getAppSetProvince, jhipsterApi),
     takeLatest(OpenScreenTypes.OPEN_SCREEN, openScreen),
 
     // JHipster accounts
@@ -58,7 +62,6 @@ export default function * root () {
     takeLatest(CaptchaCodeTypes.CAPTCHA_REQUEST, getCaptcha, jhipsterApi),
     takeLatest(CaptchaCodeTypes.CODE_REQUEST, getCode, jhipsterApi),
 
-
     takeLatest(AccountTypes.ACCOUNT_REQUEST, getAccount, jhipsterApi),
     takeLatest(AccountTypes.ACCOUNT_UPDATE_REQUEST, updateAccount, jhipsterApi),
     takeLatest(AccountTypes.PROFILE_UPDATE_REQUEST, updateProfile, jhipsterApi),
@@ -67,4 +70,5 @@ export default function * root () {
     // some sagas receive extra parameters in addition to an action
     takeLatest(GithubTypes.USER_REQUEST, getUserAvatar, jhipsterApi)
   ]
+
 }

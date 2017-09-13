@@ -56,8 +56,11 @@ const create = (baseURL = AppConfig.apiUrl) => {
   const changePassword = (data) => api.post('api/v1/sign-in/reset-password', data) // 修改密码
 
   const getCaptcha = () => api.get('site/captcha', {refresh: 'refresh'}) // 获取图片验证码
-  const checkCaptcha = (code) => api.get('site/check-captcha', { code }) // 校验图片验证码
+  const checkCaptcha = (code) => api.get('site/check-captcha', {code}) // 校验图片验证码
   const getCode = (mobile, captcha) => api.get('sms-api/get-code', {mobile, id: 1, captcha}) // 获取手机验证码
+
+  const getProvince = (parentId) => api.get('api/v1/prov-city-area-street/index', {parentId}) // 获得省市区信息
+
   // ignite-jhipster-api-method-needle
 
   // ------
@@ -86,7 +89,9 @@ const create = (baseURL = AppConfig.apiUrl) => {
 
     getCaptcha,
     checkCaptcha,
-    getCode
+    getCode,
+
+    getProvince
   }
 }
 
