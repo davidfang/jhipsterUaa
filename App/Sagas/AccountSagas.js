@@ -93,3 +93,26 @@ export function * updateProfile (api, action) {
     yield put(AccountActions.profileUpdateFailure('网络错误'))
   }
 }
+
+export function * uploadAvatar (api, action) {
+  const {fileUrl, fileName} = action
+
+  let formData = new FormData()
+
+  let file = {uri: fileUrl, type: 'application/octet-stream', name: fileName}
+  formData.append('file', file)
+  yield call(api.setFormData)
+  const response = yield call(api.uploadAvatar, formData)
+
+  if (response.ok) { // success?
+    if (response.data.status) {
+
+      yield put(AccountActions.uploadAvatarSuccess(response.data.data.files[0].url))
+    } else {
+      yield put(AccountActions.uploadAvatarFailure('上传失败'))
+    }
+  } else { // failure
+    yield put(AccountActions.uploadAvatarFailure('网络错误'))
+  }
+  yield put({type: 'UPLOAD AVATAR END'})
+}

@@ -8,8 +8,9 @@ import { Actions as NavigationActions } from 'react-native-router-flux'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 import LoginActions, { isLoggedIn } from '../Redux/LoginRedux'
+import AccountActions from '../Redux/AccountRedux'
+import ImagePicker from 'react-native-image-picker'
 
-import DrawerButton from '../Components/DrawerButton'
 import FullButton from '../Components/FullButton'
 import RoundedButton from '../Components/RoundedButton'
 import Avatar from '../Components/Avatar'
@@ -37,7 +38,9 @@ class MyCenter extends React.Component {
       return (
         <View style={styles.intro}>
           <View style={styles.introLeft}>
+            <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
             <Avatar width={50} name={username} avatar={avatar}/>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.introRight} onPress={() => NavigationActions.setting()}>
             <Text style={Fonts.style.h3}>{username}</Text>
@@ -59,7 +62,55 @@ class MyCenter extends React.Component {
       )
     }
   }
+  selectPhotoTapped () {
+    const options = {
+      title: '选择图片',
+      cancelButtonTitle: '取消',
+      takePhotoButtonTitle: '拍照',
+      chooseFromLibraryButtonTitle: '图片库',
+      cameraType: 'back',
+      mediaType: 'photo',
+      videoQuality: 'high',
+      durationLimit: 10,
+      maxWidth: 600,
+      maxHeight: 600,
+      aspectX: 2,
+      aspectY: 1,
+      quality: 0.8,
+      angle: 0,
+      allowsEditing: false,
+      noData: false,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images'
+      }
+    }
 
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response)
+
+      if (response.didCancel) {
+        console.log('User cancelled photo picker')
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton)
+      }
+      else {
+        let source = {uri: response.uri}
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.props.uploadAvatar(response.uri, response.fileName)
+        /*this.setState({
+          avatarSource: source
+        })*/
+      }
+    })
+  }
   render () {
     return (
       <ScrollView style={styles.container}>
@@ -100,7 +151,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logout: () => dispatch(LoginActions.logoutRequest())
+    logout: () => dispatch(LoginActions.logoutRequest()),
+    uploadAvatar: (fileUrl, fileName) => dispatch(AccountActions.uploadAvatarRequest(fileUrl, fileName))
   }
 }
 

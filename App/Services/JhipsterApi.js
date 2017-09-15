@@ -47,6 +47,7 @@ const create = (baseURL = AppConfig.apiUrl) => {
   //
   const setAuthToken = (userAuth) => api.setHeader('Authorization', 'Bearer ' + userAuth) // 设置token
   const removeAuthToken = () => api.setHeader('Authorization', '') // 删除token
+  const setFormData = () => api.setHeader('Content-Type', 'multipart/form-data;charset=utf-8') // 设置form data文件上传
   const login = (userAuth) => api.post('api/v1/sign-in/login', userAuth) // 登录
   const register = (user) => api.post('api/v1/sign-in/signup', user) // 注册
   const forgotPassword = (data) => api.post('api/v1/sign-in/reset-password', data) // 忘记密码
@@ -62,7 +63,7 @@ const create = (baseURL = AppConfig.apiUrl) => {
   const getProvince = (parentId) => api.get('api/v1/prov-city-area-street/index', {parentId}) // 获得省市区信息
 
   // ignite-jhipster-api-method-needle
-
+  const uploadAvatar = (formData) => api.post('api/v1/profile/avatar-upload',formData) //上传图像
   // ------
   // STEP 3
   // ------
@@ -80,6 +81,7 @@ const create = (baseURL = AppConfig.apiUrl) => {
     // ignite-jhipster-api-export-needle
     setAuthToken,
     removeAuthToken,
+    setFormData,
     login,
     register,
     forgotPassword,
@@ -91,7 +93,8 @@ const create = (baseURL = AppConfig.apiUrl) => {
     checkCaptcha,
     getCode,
 
-    getProvince
+    getProvince,
+    uploadAvatar
   }
 }
 

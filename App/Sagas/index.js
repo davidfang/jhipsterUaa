@@ -27,7 +27,7 @@ import { register } from './RegisterSagas'
 import { forgotPassword, changePassword } from './PasswordSagas'
 import { getUserAvatar } from './GithubSagas'
 import { openScreen } from './OpenScreenSagas'
-import { getAccount, updateAccount, updateProfile } from './AccountSagas'
+import { getAccount, updateAccount, updateProfile, uploadAvatar } from './AccountSagas'
 import { getCaptcha, getCode } from './CaptchaCodeSagas'
 // ignite-jhipster-saga-method-import-needle
 
@@ -64,6 +64,7 @@ export default function * root () {
 
     takeLatest(AccountTypes.ACCOUNT_REQUEST, getAccount, jhipsterApi),
     takeLatest(AccountTypes.ACCOUNT_UPDATE_REQUEST, updateAccount, jhipsterApi),
+    takeLatest(AccountTypes.UPLOAD_AVATAR_REQUEST, uploadAvatar, jhipsterApi),
     takeLatest(AccountTypes.PROFILE_UPDATE_REQUEST, updateProfile, jhipsterApi),
     // ignite-jhipster-saga-redux-connect-needle
 
