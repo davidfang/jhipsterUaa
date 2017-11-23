@@ -19,9 +19,6 @@
     "android:devices": "$ANDROID_HOME/platform-tools/adb devices",
     "android:logcat": "$ANDROID_HOME/platform-tools/adb logcat *:S ReactNative:V ReactNativeJS:V",
     "android:shake": "$ANDROID_HOME/platform-tools/adb devices | grep '\\t' | awk '{print $1}' | sed 's/\\s//g' | xargs -I {} $ANDROID_HOME/platform-tools/adb -s {} shell input keyevent 82",
-    "precommit": "npm run git-hook",
-    "prepush": "npm run git-hook",
-    "git-hook": "npm run lint -s && npm test -s",
     "postinstall": "remotedev-debugger --hostname localhost --port 5678 --injectserver"
   },
   "dependencies": {
@@ -36,6 +33,7 @@
     "react-native-config": "0.3.1",
     "react-native-device-info": "0.10.2",
     "react-native-drawer": "2.3.0",
+    "react-native-image-picker": "^0.26.6",
     "react-native-router-flux": "3.38.0",
     "react-native-vector-icons": "4.1.1",
     "react-navigation": "1.0.0-beta.11",

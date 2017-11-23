@@ -5110,6 +5110,10 @@ react-native-experimental-navigation@0.26.x:
     fbjs "^0.8.1"
     react-addons-pure-render-mixin "^15.0.2"
 
+react-native-image-picker@^0.26.6:
+  version "0.26.6"
+  resolved "http://registry.npm.taobao.org/react-native-image-picker/download/react-native-image-picker-0.26.6.tgz#387f95dd61a6cd34ac6a7eda2744a3895fb3bc6f"
+
 react-native-mock@0.3.1:
   version "0.3.1"
   resolved "http://registry.npm.taobao.org/react-native-mock/download/react-native-mock-0.3.1.tgz#13d22433c5351a8a7fb8aedd7862b614d087851c"
